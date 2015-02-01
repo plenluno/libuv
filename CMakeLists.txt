@@ -1,4 +1,4 @@
-# Copyright (c) 2013-2014 Plenluno All rights reserved.
+# Copyright (c) 2013-2015 Plenluno All rights reserved.
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -95,11 +95,22 @@ if(CMAKE_SYSTEM MATCHES "Linux")
     )
 endif(CMAKE_SYSTEM MATCHES "Linux")
 
+if(ANDROID)
+    set(uv-src
+        ${uv-src}
+        src/unix/linux-core.c
+        src/unix/linux-inotify.c
+        src/unix/linux-syscalls.c
+        src/unix/proctitle.c
+        src/unix/pthread-fixes.c
+        src/unix/android-ifaddrs.c
+    )
+endif(ANDROID)
+
 ## uv-deps
 if(UNIX)
     set(uv-deps
         m
-        pthread
     )
 else(UNIX)
     set(uv-deps
@@ -110,6 +121,13 @@ else(UNIX)
         ws2_32
     )
 endif(UNIX)
+
+if(UNIX AND NOT ANDROID)
+    set(uv-deps
+        ${uv-deps}
+        pthread
+    )
+endif(UNIX AND NOT ANDROID)
 
 if(CMAKE_SYSTEM MATCHES "Linux")
     set(uv-deps
