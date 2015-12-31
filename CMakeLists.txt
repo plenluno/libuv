@@ -63,6 +63,7 @@ else(UNIX)
         src/win/process-stdio.c
         src/win/req.c
         src/win/signal.c
+        src/win/snprintf.c
         src/win/stream.c
         src/win/tcp.c
         src/win/tty.c
@@ -118,6 +119,7 @@ else(UNIX)
         iphlpapi
         psapi
         shell32
+        userenv
         ws2_32
     )
 endif(UNIX)
